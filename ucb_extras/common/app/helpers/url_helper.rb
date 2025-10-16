@@ -16,6 +16,14 @@ module UrlHelper
     uri.to_s
   end
 
+  def for_advanced_search(href)
+    uri = URI.parse(href)
+    query = if uri.query then CGI.parse(uri.query) else {} end
+    query[:advanced] = true
+    uri.query = URI.encode_www_form(query)
+    uri.to_s
+  end
+
   # Uses the catalog_path route to create a link to the show page for an item.
   # catalog_path accepts a hash. The solr query params are stored in the session,
   # so we only need the +counter+ param here. We also need to know if we are viewing to document as part of search results.

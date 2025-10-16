@@ -11,14 +11,22 @@
   </div>
 
   <div class="facet-extended-list">
-    <%= render Blacklight::FacetComponent.new(display_facet: @display_facet,
-                                              blacklight_config: blacklight_config,
-                                              layout: false) %>
+    <div class="py-1">in_modal:<%= @presenter.in_modal? %></div>
+    <div class="py-1"><%= request.params %></div>
+    <%= render Blacklight::FacetComponent.new(
+          display_facet: @display_facet,
+          blacklight_config: blacklight_config,
+          layout: false,
+          component: if @presenter.in_advanced_search? || request.params[:advanced] then FacetFieldCheckboxesComponent else FacetFieldListComponent end
+    ) %>
   </div>
 
   <% component.with_footer do %>
     <div class="facet-pagination bottom d-flex flex-wrap w-100 justify-content-between">
       <%= render :partial=>'facet_pagination', :locals=>{html_id: 'facet-pagination-bottom'} %>
     </div>
+    <% if @presenter.in_modal? && (@presenter.in_advanced_search? || request.params[:advanced]) %>
+      SUBMIT
+    <% end %>
   <% end %>
 <% end %>

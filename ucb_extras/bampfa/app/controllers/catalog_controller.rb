@@ -215,20 +215,22 @@ class CatalogController < ApplicationController
     config.autocomplete_path = 'suggest'
 
     # FACET FIELDS
-    config.add_facet_field 'artistorigin_s', label: 'Country', limit: true
-    config.add_facet_field 'artistcalc_s', label: 'Artist', limit: true
-    config.add_facet_field 'itemclass_s', label: 'Classification', limit: true
-    config.add_facet_field 'materials_s', label: 'Materials', limit: true
+    config.add_facet_field 'artistorigin_s', advanced_search_component: FacetFieldCheckboxesComponent, component: FacetFieldListComponent, label: 'Country', limit: true, presenter: FacetFieldPresenter
+    config.add_facet_field 'artistcalc_s', advanced_search_component: FacetFieldCheckboxesComponent, component: FacetFieldListComponent, label: 'Artist', limit: true, presenter: FacetFieldPresenter
+    config.add_facet_field 'itemclass_s', advanced_search_component: FacetFieldCheckboxesComponent, component: FacetFieldListComponent, label: 'Classification', limit: true, presenter: FacetFieldPresenter
+    config.add_facet_field 'materials_s', advanced_search_component: FacetFieldCheckboxesComponent, component: FacetFieldListComponent, label: 'Materials', limit: true, presenter: FacetFieldPresenter
     # config.add_facet_field 'datemade_s', label: 'Date Made', limit: true
     config.add_facet_field("datemadeyear_i") do |field|
+      field.component = FacetFieldListComponent
       field.include_in_advanced_search = false
       field.label = 'Date made'
       field.range = true
       field.index_range = true
     end
     # config.add_facet_field 'measurement_s', label: 'Dimensions', limit: true
-    config.add_facet_field 'status_s', label: 'Status', limit: true
+    config.add_facet_field 'status_s', advanced_search_component: FacetFieldCheckboxesComponent, component: FacetFieldListComponent, label: 'Status', limit: true, presenter: FacetFieldPresenter
     config.add_facet_field('Has image') do |field|
+      field.component = FacetFieldListComponent
       field.include_in_advanced_search = false
       field.query = {
         has_image: { label: 'Yes', fq: 'blob_ss:[* TO *]' },
